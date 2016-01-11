@@ -1,0 +1,26 @@
+<html>
+  <head>
+    {% if title %}
+    <title>{{ title }} - Terrible Captionists</title>
+    {% else %}
+    <title>Hello</title>
+    {% endif %}
+  </head>
+  <body>
+  <h1>The Terrible Captionists Contest</h1>
+    <h2>The most recent contest</h2>
+    <img src="{{ path }}{{ contest.image_filename}}" width=300>
+    <p>Drawing by {{ contest.nyer_artist }}, Contest #{{ contest.nyer_contest_number }}, {{ date }}</p>
+    <!--
+    <p> {{ user.username }} is our first user.</p>
+    -->
+
+   Caption: <input type="textarea" style="height: 60px; width: 300px; margin: 0px;">
+    <br />
+      Username: <input type="textarea" class="username">
+    <input type="submit" value="Submit Caption">
+    
+  </body>
+</html>
+
+
