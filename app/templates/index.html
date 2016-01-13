@@ -1,26 +1,25 @@
-<html>
-  <head>
-    {% if title %}
-    <title>{{ title }} - Terrible Captionists</title>
-    {% else %}
-    <title>Hello</title>
-    {% endif %}
-  </head>
-  <body>
-  <h1>The Terrible Captionists Contest</h1>
+{% extends "base.html" %}
+{% block content %}
+<h1>The Terrible Captionists Contest</h1>
     <h2>The most recent contest</h2>
     <img src="{{ path }}{{ contest.image_filename}}" width=300>
     <p>Drawing by {{ contest.nyer_artist }}, Contest #{{ contest.nyer_contest_number }}, {{ date }}</p>
-    <!--
-    <p> {{ user.username }} is our first user.</p>
-    -->
 
-   Caption: <input type="textarea" style="height: 60px; width: 300px; margin: 0px;">
-    <br />
-      Username: <input type="textarea" class="username">
-    <input type="submit" value="Submit Caption">
+    <form action="" method="POST" name="caption" action="/">
+    {{ form.hidden_tag() }}
+
+    <p>{{ form.caption(size=30, maxlength=250) }} <input type="submit" value="Add Caption"></p>
+    </form>
+
+    <p>
+    {% for caption in captions %}
+    <ul>
+    <li>{{ caption.text }} | {{ caption.captionist.nickname }} | {{ caption.vote|length }} </li>
+
+    </ul>
+
+    {% endfor %}
+</p>
     
-  </body>
-</html>
-
+{% endblock %} 
 

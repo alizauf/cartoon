@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<h1> Hey {{ current_user.nickname }}!</h1>
+<ul>
+<li> {{ current_user.username}}</li>
+<li> {{ current_user.social_id}}</li>
+<li> {{ current_user.first_name}}</li>
+<li> {{ current_user.last_name}}</li>
+<li> {{ current_user.email}}</li>
+<li> {{ current_user.bio}}</li>
+<li> {{ current_user.last_seen}}</li>
+<li> {{ current_user.date_joined}}</li>
+<li> {{ current_user.something_funny}}</li>
+</ul>
+<table>
+{% for caption in current_user.captions %}
+
+<tr>
+ <td><img src="{{ path }}{{ caption.contest.image_filename }}" width=100></td> <td><strong>{{ caption.text }}</strong></td><td>{{ caption.timestamp.strftime("%B %d, %Y") }}
+</tr>
+{% endfor %}
+
+</table>
+
+
+<p>This is your page</p>
+
+<form action="" method="post" name="edit">
+{{form.hidden_tag()}}
+<p> Edit your nickname:</p>
+
+{{ form.nickname(size=24) }}
+                {% for error in form.errors.nickname %}
+                <br><span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+
+<input type="submit" value="Save Changes">
+</form>
+
+
+
+{% endblock %}
+

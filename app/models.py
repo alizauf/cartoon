@@ -1,19 +1,29 @@
-from app import db
+from app import db, oauth
+from flask.ext.login import UserMixin
 
-class User(db.Model):
+class User(UserMixin, db.Model):
+	__tablename__ = 'user'
 	id = db.Column(db.Integer, primary_key=True)
+	#check out ID
 	username = db.Column(db.String(64), index=True, unique=True)
-	password = db.Column(db.String(100))
-	email = db.Column(db.String(120), index=True, unique=True)
+	social_id = db.Column(db.String(64), unique=True)
+	nickname = db.Column(db.String(64))
+	#password = db.Column(db.String(100))
+	first_name = db.Column(db.String(64))
+	last_name = db.Column(db.String(100))
+	email = db.Column(db.String(120), index=True, unique=True, nullable=True)
 	bio = db.Column(db.String(140))
 	last_seen = db.Column(db.DateTime)
+	date_joined = db.Column(db.DateTime)
 	something_funny = db.Column(db.String(300))
-	captions = db.relationship('Caption', backref='user', lazy='dynamic')
+	captions = db.relationship('Caption', backref='captionist', lazy='dynamic')
+	vote = db.relationship('Vote', back_populates='user')
+
 	#groups = db.relationship('Group', backref)
 #get back to password encryption: http://variable-scope.com/posts/storing-and-verifying-passwords-with-sqlalchemy
 
 	def __repr__(self):
-		return '<User %r>' % (self.username)
+		return '<User %r>' % (self.nickname)
 
 class Contest(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -24,8 +34,8 @@ class Contest(db.Model):
 	contest_number = db.Column(db.Integer, index=True)
 	start_date = db.Column(db.DateTime)
 	end_date = db.Column(db.DateTime)
-	captions = db.relationship('Caption', backref='contest', lazy='dynamic')
-
+	#captions = db.relationship('Caption', backref='contest', lazy='dynamic')
+	captions = db.relationship("Caption", back_populates="contest")
 	def __repr__(self):
 		return '<Contest %r>' % (self.contest_number)
 
@@ -34,30 +44,26 @@ class Caption(db.Model):
 	text = db.Column(db.String(250))
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 	contest_id = db.Column(db.Integer, db.ForeignKey('contest.id'))
-	submission_date = db.Column(db.DateTime)
+	timestamp = db.Column(db.DateTime)
+	contest = db.relationship('Contest', back_populates="captions") 
+	vote = db.relationship('Vote', back_populates='caption')
 
 	def __repr__(self):
 		return '<Caption %r>' % (self.text)
 
+class Vote(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+	caption_id = db.Column(db.Integer, db.ForeignKey('caption.id'))
+	user = db.relationship('User', back_populates='vote')
+	caption = db.relationship('Caption', back_populates='vote')
+
+	def __repr__(self):
+		return '<Vote %r, %r>' % (self.user_id, self.caption_id)
 
 
 
-# **User**
-
-#   -related to group
-#   -related to caption
-
-
-
-#   Username
-#   Email
-#   Bio
-#   Display Name
-#   Link to avatar
-#   Link to email settings
-  
-
-
+#image table
 
 # **Group**
 # -related to user
@@ -67,13 +73,6 @@ class Caption(db.Model):
 # -related to user
 # -related to group
 
-# **Contest**
-# -related to multiple groups
-# -related to caption
-
-# **Caption**
-# -related to contest
-# -related to user
 
 # **Avatars**
 # -related to user

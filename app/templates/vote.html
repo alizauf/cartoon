@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+
+<img src="{{ path }}{{ contest.image_filename}}" width=300>
+    <p>Drawing by {{ contest.nyer_artist }}, Contest #{{ contest.nyer_contest_number }}, {{ date }}</p>
+
+
+<p>Select your favorite caption</p>
+<form action="" method="post" name="vote">
+{{form.hidden_tag()}}
+
+<ul>
+{% for choice in choices %}
+<li>
+<input type="radio" name="vote" value="{{ choice[0] }}">{{ choice[1] }}
+
+
+</li>
+{% endfor %}
+</ul>
+               
+<input type="submit" value="Vote">
+</form>
+
+{% endblock %}
