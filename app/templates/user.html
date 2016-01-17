@@ -1,42 +1,41 @@
 {% extends "base.html" %}
 {% block content %}
-<h1> Hey {{ current_user.nickname }}!</h1>
+
+{% if user == g.user %}
+<h1> Hey {{ user.nickname }}!</h1>
+<p>Here's your info. <a href="{{ url_for('profile') }}">You can update this information here.</a></p>
+{% else %}
+<h1> {{ user.nickname }}</h1>
+{% endif %}
 <ul>
-<li> {{ current_user.username}}</li>
-<li> {{ current_user.social_id}}</li>
-<li> {{ current_user.first_name}}</li>
-<li> {{ current_user.last_name}}</li>
-<li> {{ current_user.email}}</li>
-<li> {{ current_user.bio}}</li>
-<li> {{ current_user.last_seen}}</li>
-<li> {{ current_user.date_joined}}</li>
-<li> {{ current_user.something_funny}}</li>
+
+<li>Name:  {{ user.first_name}} {{ user.last_name}}</li>
+
+<li> Email: {{ user.email}}</li>
+<li>Bio: {{ user.bio}}</li>
+<li> Something Funny: {{ user.something_funny}}</li>
+<li>Captioning since: {{ user.date_joined.strftime("%B %d, %Y")}}</li>
 </ul>
+
+<h2>Past captions</h2>
 <table>
-{% for caption in current_user.captions %}
+<!-- TODO: Hide other users submissions to current contest -->
+{% for caption in user.caption|sort(reverse=True, attribute='timestamp') %}
 
 <tr>
- <td><img src="{{ path }}{{ caption.contest.image_filename }}" width=100></td> <td><strong>{{ caption.text }}</strong></td><td>{{ caption.timestamp.strftime("%B %d, %Y") }}
+ <td><img src="{{ path }}{{ caption.contest.image_filename }}" width=100></td> <td><strong>{{ caption.text }}</strong></td><td>{{ caption.timestamp.strftime("%B %d, %Y") }}</td><td> 
+ {% if caption.winner(caption.contest_id) != None %}
+    {% if caption.id in caption.winner(caption.contest_id) and caption.winner(caption.contest_id)|length > 1 %}
+    "Winner - Tie"
+    {% elif caption.id in caption.winner(caption.contest_id) and caption.winner(caption.contest_id)|length == 1 %}
+    "Winner!!"
+    {% endif %}
+    {% endif %}
+ </td>
 </tr>
 {% endfor %}
 
 </table>
-
-
-<p>This is your page</p>
-
-<form action="" method="post" name="edit">
-{{form.hidden_tag()}}
-<p> Edit your nickname:</p>
-
-{{ form.nickname(size=24) }}
-                {% for error in form.errors.nickname %}
-                <br><span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-
-<input type="submit" value="Save Changes">
-</form>
-
 
 
 {% endblock %}

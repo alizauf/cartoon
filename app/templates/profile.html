@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block content %}
+
+<p>To fix: only make things prepopulate if not none)</p>
+<form action="" method="post" name="user">
+{{form.hidden_tag()}}
+
+<p> Nickname:</p>
+
+{% if g.user.nickname !=None %}
+{{ form.nickname(size=24, value=g.user.nickname) }} 
+
+{% else %}
+{{ form.nickname(size=24) }} 
+{% endif %}
+
+                {% for error in form.errors.nickname %}
+                <br><span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+
+<p>Email</p>
+{% if g.user.email !=None %}
+{{ form.email(size=24, value=g.user.email) }} 
+
+{% else %}
+{{ form.email(size=24) }} 
+{% endif %}
+
+                {% for error in form.errors.nickname %}
+                <br><span style="color: red;">[{{ error }}]</span>
+                {% endfor %}  
+
+
+<p>First name</p>
+{% if g.user.first_name !=None %}
+{{ form.first_name(size=24, value=g.user.first_name) }} 
+
+{% else %}
+{{ form.first_name(size=24) }} 
+{% endif %}
+                <!-- {% for error in form.errors.nickname %}
+                <br><span style="color: red;">[{{ error }}]</span>
+                {% endfor %} -->
+
+<p>Last name</p>
+{% if g.user.last_name !=None %}
+{{ form.last_name(size=24, value=g.user.last_name) }} 
+
+{% else %}
+{{ form.last_name(size=24, value="") }} 
+{% endif %}
+               <!--  {% for error in form.errors.nickname %}
+                <br><span style="color: red;">[{{ error }}]</span>
+                {% endfor %} -->
+
+<p>Bio</p>
+{% if g.user.bio !=None %}
+{{ form.bio(size=50, value=g.user.bio) }} 
+
+{% else %}
+{{ form.bio(size=50, value="") }} 
+{% endif %}
+               <!--  {% for error in form.errors.nickname %}
+                <br><span style="color: red;">[{{ error }}]</span>
+                {% endfor %}   -->
+
+<p>Something Funny</p>
+{% if g.user.something_funny !=None %}
+{{ form.something_funny(size=50, value=g.user.something_funny) }} 
+
+{% else %}
+{{ form.something_funny(size=50, value="") }} 
+{% endif %}
+                <!-- {% for error in form.errors.nickname %}
+                <br><span style="color: red;">[{{ error }}]</span>
+                {% endfor %}  -->                     
+
+          <br>
+
+<input type="submit" value="Update">
+</form>
+
+{% endblock %}
+
+
+
+
+first_name = StringField('first_name', validators=[DataRequired()])
+    last_name = StringField('first_name')
+    email = StringField('email', validators=[DataRequired()])
+    bio = StringField('bio')
+    something_funny = StringField('something_funny')

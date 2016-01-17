@@ -1,25 +1,52 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>The Terrible Captionists Contest</h1>
-    <h2>The most recent contest</h2>
+<p><strong>
+{% if current_user.id not in user_captions %}
+Submit your caption for this week's contest!
+{% else %}
+You've already submitted this week!
+{% endif %}
+</strong></p>
     <img src="{{ path }}{{ contest.image_filename}}" width=300>
-    <p>Drawing by {{ contest.nyer_artist }}, Contest #{{ contest.nyer_contest_number }}, {{ date }}</p>
+    <p>Drawing by {{ contest.nyer_artist }}, Contest #{{ contest.nyer_contest_number }}, {{ contest.start_date.strftime("%B %d, %Y") }}</p>
 
-    <form action="" method="POST" name="caption" action="/">
-    {{ form.hidden_tag() }}
 
-    <p>{{ form.caption(size=30, maxlength=250) }} <input type="submit" value="Add Caption"></p>
-    </form>
+ 
 
+   
+
+{% if current_user.id in user_captions %}
+<p><strong>This week's captions: </strong></p>
     <p>
-    {% for caption in captions %}
+    {% for caption in contest.captions %}
     <ul>
-    <li>{{ caption.text }} | {{ caption.captionist.nickname }} | {{ caption.vote|length }} </li>
+    <li>{{ caption.text }} | <a href = "{{ url_for('user', nickname=caption.user.nickname) }}">{{ caption.user.nickname }}</a> </li>
 
     </ul>
 
     {% endfor %}
 </p>
+
+{% else %}
+  <form action="" method="POST" name="caption" action="/">
+    {{ form.hidden_tag() }}
+
+    <p>{{ form.caption(size=30, maxlength=250) }} <input type="submit" value="Add Caption"></p>
+    </form> 
+        {% if contest.captions|length == 0 %}
+        <p> Be the first to submit a caption!</p>
+        
+        
+        
+        {% elif contest.captions|length == 1 %}
+        <p>Only one caption so far! Add yours and make this a competition!</p>
+
+        {% else %}
+        <p>Your friends have submitted {{ contest.captions|length }} captions. Submit your caption to reveal their entries. 
+        {% endif %}
+
+{% endif %}
     
 {% endblock %} 
 

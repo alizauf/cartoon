@@ -2,24 +2,43 @@
 {% block content %}
 
 <img src="{{ path }}{{ contest.image_filename}}" width=300>
-    <p>Drawing by {{ contest.nyer_artist }}, Contest #{{ contest.nyer_contest_number }}, {{ date }}</p>
+    <p>Drawing by {{ contest.nyer_artist }}, Contest #{{ contest.nyer_contest_number }}, {{ contest.start_date.strftime("%B %d, %Y") }}</p>
 
+{% if user.id in user_captions and user.id not in votes %}
 
 <p>Select your favorite caption</p>
 <form action="" method="post" name="vote">
 {{form.hidden_tag()}}
 
-<ul>
+
 {% for choice in choices %}
+<ul>
 <li>
 <input type="radio" name="vote" value="{{ choice[0] }}">{{ choice[1] }}
 
 
 </li>
-{% endfor %}
 </ul>
-               
+
+{% endfor %}
 <input type="submit" value="Vote">
-</form>
+	</form>
+
+{% else %}
+	{% if user.id in votes %}
+	<p>You only get one vote. Here's who's winning so far. Now time to canvas your fellow players for votes.</p>
+
+	{% for caption in contest.captions %}
+    <ul>
+    <li>{{ caption.text }} | <a href = "{{ url_for('user', nickname=caption.user.nickname) }}">{{ caption.user.nickname }}</a> | Votes: {{ caption.vote|length }} </li>
+
+    </ul>
+
+    {% endfor %}
+
+	{% else %}
+	<p><a href="{{ url_for('index') }}">Submit your caption</a> for this week's contest to unlock voting!</p>
+	{% endif %}
+{% endif %}
 
 {% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Past Contests</h1>
+{% for contest in contests[1:] %}
+{% if contest.start_date != None %}
+<h2>{{ contest.start_date.strftime("%B %d, %Y") }}</h2>
+{% endif %}
+<img src="{{ path }}{{ contest.image_filename}}" width=300><br />
+    <p>Drawing by {{ contest.nyer_artist }}, Contest #{{ contest.nyer_contest_number }}, {{ contest.start_date }}</p>
+
+{% for caption in contest.captions %}
+    
+    <ul>
+    <li>{{ caption.text }} | <a href = "{{ url_for('user', nickname=caption.user.nickname) }}">{{ caption.user.nickname }}</a> | Votes: {{ caption.vote|length }} |
+    {% if caption.winner(caption.contest_id) != None %}
+    {% if caption.id in caption.winner(caption.contest_id) and caption.winner(caption.contest_id)|length > 1 %}
+    "Winner - Tie"
+    {% elif caption.id in caption.winner(caption.contest_id) and caption.winner(caption.contest_id)|length == 1 %}
+    "Winner!!"
+    {% endif %}
+    {% endif %} </li>
+
+    </ul>
+
+    {% endfor %}
+
+{% endfor %}
+
+{% endblock %}
