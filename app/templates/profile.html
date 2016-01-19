@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
+<h1>Update Your Profile</h1>
 
-<p>To fix: only make things prepopulate if not none)</p>
-<form action="" method="post" name="user">
+<div class="left" style="width:400px">
+<form style="margin-left: 40px" action="" method="post" name="user">
 {{form.hidden_tag()}}
 
-<p> Nickname:</p>
+<p> Nickname*<br>
 
 {% if g.user.nickname !=None %}
 {{ form.nickname(size=24, value=g.user.nickname) }} 
@@ -17,8 +18,9 @@
                 {% for error in form.errors.nickname %}
                 <br><span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
+                </p>
 
-<p>Email</p>
+<p>Email*<br>
 {% if g.user.email !=None %}
 {{ form.email(size=24, value=g.user.email) }} 
 
@@ -30,8 +32,8 @@
                 <br><span style="color: red;">[{{ error }}]</span>
                 {% endfor %}  
 
-
-<p>First name</p>
+</p>
+<p>First name*<br>
 {% if g.user.first_name !=None %}
 {{ form.first_name(size=24, value=g.user.first_name) }} 
 
@@ -41,8 +43,9 @@
                 <!-- {% for error in form.errors.nickname %}
                 <br><span style="color: red;">[{{ error }}]</span>
                 {% endfor %} -->
+</p>
 
-<p>Last name</p>
+<p>Last name<br>
 {% if g.user.last_name !=None %}
 {{ form.last_name(size=24, value=g.user.last_name) }} 
 
@@ -52,8 +55,9 @@
                <!--  {% for error in form.errors.nickname %}
                 <br><span style="color: red;">[{{ error }}]</span>
                 {% endfor %} -->
+</p>
 
-<p>Bio</p>
+<p>Bio<br>
 {% if g.user.bio !=None %}
 {{ form.bio(size=50, value=g.user.bio) }} 
 
@@ -63,8 +67,9 @@
                <!--  {% for error in form.errors.nickname %}
                 <br><span style="color: red;">[{{ error }}]</span>
                 {% endfor %}   -->
+</p>
 
-<p>Something Funny</p>
+<p>Something Funny<br>
 {% if g.user.something_funny !=None %}
 {{ form.something_funny(size=50, value=g.user.something_funny) }} 
 
@@ -74,12 +79,16 @@
                 <!-- {% for error in form.errors.nickname %}
                 <br><span style="color: red;">[{{ error }}]</span>
                 {% endfor %}  -->                     
+</p>
 
-          <br>
-
-<input type="submit" value="Update">
+<input type="submit" value="Update" class="button">
 </form>
+<p>I may build functionality later to email you about new contests. If I do, I'll also build functionality to let you opt out. </p>
+</div>
 
+<div class ="right">
+<img src = "{{ path }}dog.jpg">
+</div>
 {% endblock %}
 
 

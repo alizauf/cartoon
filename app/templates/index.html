@@ -1,40 +1,41 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>The Terrible Captionists Contest</h1>
-<p><strong>
+<h1>
 {% if current_user.id not in user_captions %}
-Submit your caption for this week's contest!
+Write a funny caption for this cartoon.
 {% else %}
-You've already submitted this week!
+This Week's Contest
 {% endif %}
-</strong></p>
-    <img src="{{ path }}{{ contest.image_filename}}" width=300>
-    <p>Drawing by {{ contest.nyer_artist }}, Contest #{{ contest.nyer_contest_number }}, {{ contest.start_date.strftime("%B %d, %Y") }}</p>
+</h1>
+
+
+<div class="left">
+<img src="{{ path }}{{ contest.image_filename}}" width=400px>
+
+{% if current_user.id not in user_captions %}
+<p>Submit your caption for this week's contest!</p>
+<form action="" method="POST" name="caption" action="/">
+    {{ form.hidden_tag() }}
+
+    <p>{{ form.caption(maxlength=250) }} <input class = "button" type="submit" value="Submit"></p>
+    </form> 
+{% else %}
+{% for caption in contest.captions %}
+{% if caption.user_id == current_user.id %}
+<p class="caption">{{ caption.text }}</p>
+{% endif %}
+{% endfor %}
+{% endif %}
+<p>Drawing by {{ contest.nyer_artist }}, Contest #{{ contest.nyer_contest_number }}, {{ contest.start_date.strftime("%B %d, %Y") }}</p>
+</p>
+ </div>   
 
 
  
 
-   
-
-{% if current_user.id in user_captions %}
-<p><strong>This week's captions: </strong></p>
-    <p>
-    {% for caption in contest.captions %}
-    <ul>
-    <li>{{ caption.text }} | <a href = "{{ url_for('user', nickname=caption.user.nickname) }}">{{ caption.user.nickname }}</a> </li>
-
-    </ul>
-
-    {% endfor %}
-</p>
-
-{% else %}
-  <form action="" method="POST" name="caption" action="/">
-    {{ form.hidden_tag() }}
-
-    <p>{{ form.caption(size=30, maxlength=250) }} <input type="submit" value="Add Caption"></p>
-    </form> 
-        {% if contest.captions|length == 0 %}
+<div class="right">  
+{% if current_user.id not in user_captions %} 
+ {% if contest.captions|length == 0 %}
         <p> Be the first to submit a caption!</p>
         
         
@@ -43,10 +44,27 @@ You've already submitted this week!
         <p>Only one caption so far! Add yours and make this a competition!</p>
 
         {% else %}
-        <p>Your friends have submitted {{ contest.captions|length }} captions. Submit your caption to reveal their entries. 
+        <p>Your friends have submitted {{ contest.captions|length }} captions this week. Submit your caption to reveal their entries. 
         {% endif %}
 
-{% endif %}
-    
+{% else %}
+
+<h2>Other Captions </h2>
+    <p>
+    {% for caption in contest.captions %}
+    {% if caption.user_id != current_user.id %}
+    <ul>
+    <li><span class="caption">{{ caption.text }}</span> | <a href = "{{ url_for('user', nickname=caption.user.nickname) }}">{{ caption.user.nickname }}</a> </li>
+
+    </ul>
+    {% endif %}
+    {% endfor %}
+     {% endif %} 
+</p>
+
+  
+     
+ 
+ </div>   
 {% endblock %} 
 

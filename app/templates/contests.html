@@ -1,29 +1,49 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Past Contests</h1>
+<h1>Previous Contests</h1>
+<p style="margin-left: 40px">Take a laugh down memory lane... 
+ {% if current_user.is_authenticated %}
+You can also <a href="{{ url_for('index') }}">enter this week's contest</a>, or <a href = "{{ url_for('user', nickname=g.user.nickname) }}">view your own ghosts of captions past</a>. 
+{% else %}
+If you want to enter this week's contest, <a href = "{{ url_for('login') }}">log in</a> or <a href = "{{ url_for('signup') }}">sign up</a>.
+{% endif %}
+</p>
+
+
 {% for contest in contests[1:] %}
+<div class = "contest_list">
 {% if contest.start_date != None %}
 <h2>{{ contest.start_date.strftime("%B %d, %Y") }}</h2>
 {% endif %}
-<img src="{{ path }}{{ contest.image_filename}}" width=300><br />
-    <p>Drawing by {{ contest.nyer_artist }}, Contest #{{ contest.nyer_contest_number }}, {{ contest.start_date }}</p>
+<div class="left">
+
+<img src="{{ path }}{{ contest.image_filename}}"><br />
+    <p>Drawing by {{ contest.nyer_artist }}, Contest #{{ contest.nyer_contest_number }}</p>
+</div>
+
+<div class="right">
 
 {% for caption in contest.captions %}
     
     <ul>
-    <li>{{ caption.text }} | <a href = "{{ url_for('user', nickname=caption.user.nickname) }}">{{ caption.user.nickname }}</a> | Votes: {{ caption.vote|length }} |
+    <li><span class="caption">{{ caption.text }}</span> <br>
+    <a href = "{{ url_for('user', nickname=caption.user.nickname) }}">{{ caption.user.nickname }}</a> | Votes: {{ caption.vote|length }} 
     {% if caption.winner(caption.contest_id) != None %}
     {% if caption.id in caption.winner(caption.contest_id) and caption.winner(caption.contest_id)|length > 1 %}
-    "Winner - Tie"
+    <span class="winner">Tied Winner </span>
     {% elif caption.id in caption.winner(caption.contest_id) and caption.winner(caption.contest_id)|length == 1 %}
-    "Winner!!"
+   <span class="winner"> Winner </span>
     {% endif %}
     {% endif %} </li>
 
     </ul>
 
     {% endfor %}
-
+</div>
+<div class="clear"></div>
+</div>
 {% endfor %}
+
+
 
 {% endblock %}

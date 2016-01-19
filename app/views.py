@@ -18,7 +18,7 @@ def index():
 		caption = Caption(text=form.caption.data, timestamp=datetime.utcnow(), user=g.user, contest_id = contest.id)
 		db.session.add(caption)
 		db.session.commit()
-		flash("You've submitted a caption!")
+		flash("You've submitted your caption! Compete for real on newyorker.com")
 		return redirect(url_for('index'))
 	path = IMAGE_PATH
 	user_captions = [a.user_id for a in contest.captions]
@@ -104,7 +104,11 @@ def profile():
 			flash("Thanks for updating your profile!")
 			return redirect(url_for('user', nickname=g.user.nickname))
 	return render_template('profile.html', title="Fill in your info", path=path, form=form)
-	
+
+@app.route('/about')
+def about():
+	path = IMAGE_PATH
+	return render_template('about.html', path=path)	
 
 
 @app.route('/login')

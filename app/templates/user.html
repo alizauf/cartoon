@@ -3,33 +3,38 @@
 
 {% if user == g.user %}
 <h1> Hey {{ user.nickname }}!</h1>
-<p>Here's your info. <a href="{{ url_for('profile') }}">You can update this information here.</a></p>
+<p style="margin-left: 40px">New <em>nom de guerre</em>? Thought of something funnier?<br />
+<a href="{{ url_for('profile') }}">Update any of your profile information here. </a> <br />
+Only you can see your email. The rest of this page is available to other captionists.</p>
 {% else %}
 <h1> {{ user.nickname }}</h1>
 {% endif %}
-<ul>
+<ul class="user_info">
 
-<li>Name:  {{ user.first_name}} {{ user.last_name}}</li>
-
-<li> Email: {{ user.email}}</li>
-<li>Bio: {{ user.bio}}</li>
-<li> Something Funny: {{ user.something_funny}}</li>
-<li>Captioning since: {{ user.date_joined.strftime("%B %d, %Y")}}</li>
+<li><strong>Name:</strong>  {{ user.first_name}} {{ user.last_name}}</li>
+{% if user == g.user %}
+<li> <strong>Email:</strong> {{ user.email}}</li>
+{% endif %}
+<li><strong>Bio:</strong> {{ user.bio}}</li>
+<li> <strong>Something Funny:</strong> {{ user.something_funny}}</li>
+<li><strong>Captioning since:</strong> {{ user.date_joined.strftime("%B %d, %Y")}}</li>
 </ul>
 
 <h2>Past captions</h2>
-<table>
+<table style="margin-left:40px">
 <!-- TODO: Hide other users submissions to current contest -->
 {% for caption in user.caption|sort(reverse=True, attribute='timestamp') %}
 
 <tr>
- <td><img src="{{ path }}{{ caption.contest.image_filename }}" width=100></td> <td><strong>{{ caption.text }}</strong></td><td>{{ caption.timestamp.strftime("%B %d, %Y") }}</td><td> 
+ <td><img src="{{ path }}{{ caption.contest.image_filename }}" width=100></td> <td style="width:300px"><span class="caption">{{ caption.text }}</span></td><td>{{ caption.timestamp.strftime("%B %d, %Y") }}</td><td> 
  {% if caption.winner(caption.contest_id) != None %}
+    
     {% if caption.id in caption.winner(caption.contest_id) and caption.winner(caption.contest_id)|length > 1 %}
-    "Winner - Tie"
+   <span class="winner"> Tied Winner </span>
     {% elif caption.id in caption.winner(caption.contest_id) and caption.winner(caption.contest_id)|length == 1 %}
-    "Winner!!"
+    <span class="winner">Winner</span>
     {% endif %}
+
     {% endif %}
  </td>
 </tr>

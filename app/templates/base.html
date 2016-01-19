@@ -5,28 +5,57 @@
     {% else %}
     <title>Hello</title>
     {% endif %}
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Lora:400,400italic,700' rel='stylesheet' type='text/css'>
 
     <link rel="stylesheet" type="text/css" href="/static/css/cartoon.css">
   </head>
   <body>
   {% with messages = get_flashed_messages() %}
     {% if messages %}
-    <ul>
+    <ul class="flash">
     {% for message in messages %}
         <li>{{ message }} </li>
     {% endfor %}
     </ul>
     {% endif %}
     {% endwith %}
-<p><a href= " {{ url_for('index') }} ">Terrible Captionists!</a>
+<div class = "navigation">
+ <div class = "nav_2">
  {% if current_user.is_authenticated %}
-             | <a href="{{ url_for('contests') }}">Past Contests</a> | <a href="{{ url_for('vote') }}">Vote!</a> ||| <a href = "{{ url_for('user', nickname=g.user.nickname) }}">Hi, {{ current_user.nickname }}!</a> | <a href="{{ url_for('logout') }}">Logout</a></p>
-        {% else %}
-            | <a href = "{{ url_for('signup') }}">Sign Up</a> | <a href = "{{ url_for('login') }}">Log In</a>
-            
-            
-        {% endif %}
+ <ul>
+<li><a href = "{{ url_for('user', nickname=g.user.nickname) }}"> Hi, {{ g.user.nickname }}</a>  |  </li>
+  <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+ {% else %}
+   <li class = "signup"><a href = "{{ url_for('signup') }}">Sign Up</a> | </li>
+  <li class = "login"><a href = "{{ url_for('login') }}">Log In</a></li>
+  {% endif %}
+  </ul>
+  </div>
 
+<div class = "nav_1">
+<ul>
+    <li class = "logo"><a href= " {{ url_for('index') }} ">Terrible Captionists</a></li> 
+ 
+  <li class = "contests"><a href="{{ url_for('contests') }}">Contests</a></li>
+   {% if current_user.is_authenticated %}
+  <li class = "vote"><a href="{{ url_for('vote') }}">Vote</a></li>
+  {% endif %}
+  <li><a href="{{ url_for('about') }}">About</a></li>
+  </ul>
+  </div>
+
+  
+  </div>
+  
+  
+</div>
+<div class="clear"></div>
+<div class="top_bar"></div>
+<div class="content">
     {% block content %}{% endblock %}
+    </div>
+<footer>
+<p> Made by <a href="http://www.github.com/alizauf">Aliza Aufrichtig</a> at the <a href="http://www.recurse.com">Recurse Center</a>. All cartoons &copy;The New Yorker.</p>
+</footer>
   </body>
 </html>
