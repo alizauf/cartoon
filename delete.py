@@ -16,5 +16,9 @@ votes = models.Vote.query.all()
 for v in votes:
 	db.session.delete(v)
 
+contests = models.Contest.query.all()
+
+for c in contests:
+	db.session.delete(c)
 
 db.session.commit()

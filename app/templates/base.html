@@ -3,11 +3,13 @@
     {% if title %}
     <title>{{ title }} - Terrible Captionists</title>
     {% else %}
-    <title>Hello</title>
+    <title>Terrible Captionists</title>
     {% endif %}
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Lora:400,400italic,700' rel='stylesheet' type='text/css'>
 
     <link rel="stylesheet" type="text/css" href="/static/css/cartoon.css">
+
+    <link rel="shortcut icon" href="{{ path }}favicon.ico">
   </head>
   <body>
   {% with messages = get_flashed_messages() %}
