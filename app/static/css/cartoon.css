@@ -51,7 +51,7 @@ input[type="text"] {
 
 
 h1 {
-	margin: 10px 0px 20px 30px;
+	margin: 10px 0px 10px 30px;
 	font-family: 'Montserrat', sans-serif;
 	padding: 10px;
 	text-align: left;
@@ -59,7 +59,12 @@ h1 {
 
 h2 {
 	text-align: left;
-	margin-left: 40px;
+	
+}
+
+h3 {
+	font-size: 18px;
+	margin: 0px;
 }
 
 .top_bar {
@@ -173,7 +178,7 @@ li {
 footer {
 	background-color: #F1F1F2;
 	text-align: center;
-	padding: 10px;
+	padding: 10px 0px;
 	font-size: 13px;
    bottom:0;
    width: 100%;
@@ -211,6 +216,8 @@ footer p {
 	border-radius: 4px;
 	margin: 5px 0px 0px 10px;
 }
+
+
 
 .caption {
 	font-family: 'Times New Roman', serif;

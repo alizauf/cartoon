@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Welcome back!</h1>
+<div class="right">
 <h2>Get your funny on.</h2>
 
-<p><a href="{{ url_for('oauth_authorize', provider='facebook') }}"><img src="{{ path }}facebook-login.png" width=150></a>
-<a href="{{ url_for('oauth_authorize', provider='twitter') }}"><img src="{{ path }}twitter-login.png" width=150></a></p>
+<a href="{{ url_for('oauth_authorize', provider='facebook') }}"><img src="{{ path }}facebook-login.png" width=140></a>
+<a href="{{ url_for('oauth_authorize', provider='twitter') }}"><img src="{{ path }}twitter-login.png" width=140></a>
+</div>
+<div class="left">
+<img style="width:400px" src="{{ path }}welcome.jpg">
+</div>
 {% endblock %}

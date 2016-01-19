@@ -1,10 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Welcome to Terrible Captionists!</h1>
-<h2>Sign up, and get funnier</h2>
+<h1>Welcome to <em>Terrible Captionists!</em></h1>
+<h3>Each week, compete with your friends to create the funniest cartoon caption.</h3>
 
-<p>Each week, compete with your friends to create the funniest cartoon caption.</p>
+<div class="left">
+<img style="width:400px" src="{{ path }}signup.jpg">
+</div>
+<div class="right">
+<h2>Sign up, and get funnier.</h2>
 
-<p><a href="{{ url_for('oauth_authorize', provider='facebook') }}"><img src="{{ path }}facebook-signup.png" width=150></a>
-<a href="{{ url_for('oauth_authorize', provider='twitter') }}"><img src="{{ path }}twitter-signup.png" width=150></a></p>
+
+
+<a href="{{ url_for('oauth_authorize', provider='facebook') }}"><img src="{{ path }}facebook-signup.png" width=140></a>
+<a href="{{ url_for('oauth_authorize', provider='twitter') }}"><img src="{{ path }}twitter-signup.png" width=140></a>
+</div>
 {% endblock %}

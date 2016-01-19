@@ -11,7 +11,7 @@ This Week's Contest
 
 <div class="left">
 <img src="{{ path }}{{ contest.image_filename}}" width=400px>
-
+ {% if current_user.is_authenticated %}
 {% if current_user.id not in user_captions %}
 <p>Submit your caption for this week's contest!</p>
 <form action="" method="POST" name="caption" action="/">
@@ -26,6 +26,7 @@ This Week's Contest
 {% endif %}
 {% endfor %}
 {% endif %}
+{% endif %}
 <p>Drawing by {{ contest.nyer_artist }}, Contest #{{ contest.nyer_contest_number }}, {{ contest.start_date.strftime("%B %d, %Y") }}</p>
 </p>
  </div>   
@@ -34,6 +35,7 @@ This Week's Contest
  
 
 <div class="right">  
+{% if current_user.is_authenticated %}
 {% if current_user.id not in user_captions %} 
  {% if contest.captions|length == 0 %}
         <p> Be the first to submit a caption!</p>
@@ -61,8 +63,14 @@ This Week's Contest
     {% endfor %}
      {% endif %} 
 </p>
+{% else %}
 
-  
+<p> Each week, thousands of people submit their funniest one-liners to <a href="http://contest.newyorker.com/">The New Yorker Cartoon Caption Contest</a>. That's a few thousand too many. <strong> Here at <em>Terrible Captionists</em>, we think it is more fun to caption with friends.</strong></p>
+<p> The game is simple. Each Monday there is a new cartoon. You come up with something funny, and then the group votes on the best caption.</p>
+<p> (And if you submit it to The New Yorker each week, you'll increase your odds of winning that other contest.)</p>
+
+<a style="text-decoration:none" href="{{ url_for('signup') }}"><p class="winner">Sign Me Up</p></a>
+{% endif %}
      
  
  </div>   
