@@ -1,2 +1,4 @@
 from app import app
-app.run(host='localhost', port=8080, debug=True)
+
+if __name__ == '__main__':
+    app.run(debug=True)
